@@ -1,6 +1,6 @@
 // OpenSCAD model
 // Малый логотип дайв клуба Neva Divers
-// Version 1.2
+// Version 1.2.1
 // Author: msp
 // Date: 2026-04-22
 // =============================================
@@ -18,7 +18,7 @@ amplitude       = 2;
 thickness       = 1;   
 
 module ellipse(w, k=0.6) {
-    scale([w/2, w*k/2]) circle(r=1);
+    scale([w/2, w*k/2]) circle(r=1, $fn = 100);
 }
 
 module oval_ring(w, t, k=0.6) {
@@ -96,4 +96,4 @@ module build_logo () {
 }
 
 // Рендер
-build_logo();
+//build_logo();
