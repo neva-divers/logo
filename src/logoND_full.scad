@@ -21,8 +21,6 @@ txtLowerSize    = 6;
 txtLowerOffset  = 23;
 txtLowerRadius  = 53;
 
-//txt_rotate      =false;
-
 // Волна
 step            = 0.5;      
 length          = 70;    
