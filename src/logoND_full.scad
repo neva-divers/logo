@@ -1,6 +1,6 @@
 // OpenSCAD model
 // Логотип дайв клуба Neva Divers
-// Version 2.0
+// Version 2.0.1
 // Author: msp
 // Date: 2026-04-22
 // ---------------------------------------------
@@ -25,7 +25,7 @@ txtLowerRadius  = 53;
 step            = 0.5;      
 length          = 70;    
 amplitude       = 2;   
-thickness       = 1;   
+thickness       = 2;   
 
 module ellipse(w, k=0.6) {
     scale([w/2, w*k/2]) circle(r=1);
@@ -97,12 +97,12 @@ module arc_bottom_text(text_str, start_angle, txt_radius, txt_size, txt_spacing,
 module build_logo () {
     union() {
         // 1. Внутренняя рамка
-        oval_ring(66, 2, 0.66);
+        oval_ring(66, thickness*2, 0.66);
 
         // 2. Меридианы, обрезанные волной
         difference() {
             intersection() {
-                oval_ring(49, 2, 0.87); // Вертикальный эллипс (меридиан)
+                oval_ring(49, thickness*2, 0.87); // Вертикальный эллипс (меридиан)
                 ellipse(63, 0.68);      // Ограничение внутренним пространством
             }
             wave_bottom_mask();        // Удаляем всё, что ниже волны
@@ -116,15 +116,15 @@ module build_logo () {
 
         // 4. Линии
         intersection() { // правая
-            translate([25, 0, 0]) square([20, 2], center=true);
+            translate([25, 0, 0]) square([20, thickness*2], center=true);
             ellipse(66, 0.6);
         }
         intersection() { // левая
-            translate([-25, 0, 0]) square([20, 2], center=true);
+            translate([-25, 0, 0]) square([20, thickness*2], center=true);
             ellipse(66, 0.6);
         }
         intersection() { // вертикальная
-            translate([0, 16, 0]) square([2, 10], center=true);
+            translate([0, 16, 0]) square([thickness*2, 10], center=true);
             ellipse(66, 0.6);
         }
 
@@ -142,9 +142,9 @@ module build_logo () {
         translate([40, 8])circle (2.6);
         
         // 7. Внешняя рамка
-        oval_ring(108, 2, 0.7);
+        oval_ring(108, thickness*2, 0.7);
     }
 }
 
 // Рендер
-build_logo();
+//build_logo(thickness);

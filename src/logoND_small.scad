@@ -1,6 +1,6 @@
 // OpenSCAD model
 // Малый логотип дайв клуба Neva Divers
-// Version 1.2.1
+// Version 1.2.2
 // Author: msp
 // Date: 2026-04-22
 // =============================================
@@ -56,15 +56,15 @@ module txt_short_form () {
 }
 
 // --- СБОРКА  ---
-module build_logo () {
+module build_logo (thickness) {
     union() {
         // 1. Внутренняя рамка
-        oval_ring(66, 2, 0.66);
+        oval_ring(66, thickness*2, 0.66);
 
         // 2. Меридианы, обрезанные волной
         difference() {
             intersection() {
-                oval_ring(49, 2, 0.87); // Вертикальный эллипс (меридиан)
+                oval_ring(49, thickness*2, 0.87); // Вертикальный эллипс (меридиан)
                 ellipse(63, 0.68);      // Ограничение внутренним пространством
             }
             wave_bottom_mask();        // Удаляем всё, что ниже волны
@@ -78,15 +78,15 @@ module build_logo () {
 
         // 4. Линии
         intersection() { // правая
-            translate([25, 0, 0]) square([20, 2], center=true);
+            translate([25, 0, 0]) square([20, thickness*2], center=true);
             ellipse(66, 0.6);
         }
         intersection() { // левая
-            translate([-25, 0, 0]) square([20, 2], center=true);
+            translate([-25, 0, 0]) square([20, thickness*2], center=true);
             ellipse(66, 0.6);
         }
         intersection() { // вертикальная
-            translate([0, 16, 0]) square([2, 10], center=true);
+            translate([0, 16, 0]) square([thickness*2, 10], center=true);
             ellipse(66, 0.6);
         }
 
@@ -96,4 +96,4 @@ module build_logo () {
 }
 
 // Рендер
-//build_logo();
+//build_logo(thickness);
