@@ -1,15 +1,18 @@
 // OpenSCAD model
 // Логотип дайв клуба Neva Divers
-// Version 2.0.1
+// Version 2.0.2
 // Author: msp
 // Date: 2026-04-22
 // ---------------------------------------------
+use <../../logo/src/logoND_small.scad>      // отсюда берем функцию < build_small_logo(thickness_line); >
 
 // === ПАРАМЕТРЫ ===
 $fn = 100;
 
 shortTxtFont    = "Noto Serif:style=Bold";
 longTxtFont     = "Noto Sans:style=ExtraCondensed Bold";
+thickness_line  = 1;          //локальная переменная чтоб не ломать  модель, значение должно передаваться глобально  
+
 
 txtUpperSpacing = 6;            // растояние между буквами
 txtUpperSize    = 9;
@@ -21,11 +24,12 @@ txtLowerSize    = 6;
 txtLowerOffset  = 23;
 txtLowerRadius  = 53;
 
+/*
 // Волна
 step            = 0.5;      
 length          = 70;    
 amplitude       = 2;   
-thickness       = 2;   
+ 
 
 module ellipse(w, k=0.6) {
     scale([w/2, w*k/2]) circle(r=1);
@@ -44,7 +48,7 @@ module wave() {
     translate([-25, -12, 0])
     for (i = [-20 : step : length]) {
         translate([i, amplitude * sin(i * 8), 0])
-            circle(r = thickness, $fn = 20);
+            circle(r = thickness_line, $fn = 20);
     }
 }
 
@@ -64,7 +68,7 @@ module txt_short_form () {
     translate([4.5, 0, 0])
         text("D", font = shortTxtFont, size = 14, halign = "center", valign = "center");
 }
-
+*/
 // --- Текст по дуге ---
 module arc_bottom_text(text_str, start_angle, txt_radius, txt_size, txt_spacing, txt_rotate) {
     chars = [for(i=[0:len(text_str)-1]) text_str[i]];
@@ -94,15 +98,16 @@ module arc_bottom_text(text_str, start_angle, txt_radius, txt_size, txt_spacing,
 
 
 // --- СБОРКА  ---
-module build_logo () {
+module build_logo (thickness_line) {
     union() {
+        /*
         // 1. Внутренняя рамка
-        oval_ring(66, thickness*2, 0.66);
+        oval_ring(66, thickness_line*2, 0.66);
 
         // 2. Меридианы, обрезанные волной
         difference() {
             intersection() {
-                oval_ring(49, thickness*2, 0.87); // Вертикальный эллипс (меридиан)
+                oval_ring(49, thickness_line*2, 0.87); // Вертикальный эллипс (меридиан)
                 ellipse(63, 0.68);      // Ограничение внутренним пространством
             }
             wave_bottom_mask();        // Удаляем всё, что ниже волны
@@ -116,20 +121,23 @@ module build_logo () {
 
         // 4. Линии
         intersection() { // правая
-            translate([25, 0, 0]) square([20, thickness*2], center=true);
+            translate([25, 0, 0]) square([20, thickness_line*2], center=true);
             ellipse(66, 0.6);
         }
         intersection() { // левая
-            translate([-25, 0, 0]) square([20, thickness*2], center=true);
+            translate([-25, 0, 0]) square([20, thickness_line*2], center=true);
             ellipse(66, 0.6);
         }
         intersection() { // вертикальная
-            translate([0, 16, 0]) square([thickness*2, 10], center=true);
+            translate([0, 16, 0]) square([thickness_line*2, 10], center=true);
             ellipse(66, 0.6);
         }
-
+               
         // 5. Текст
         txt_short_form();
+        */
+        
+        build_small_logo(thickness_line);
 
         translate([0, txtUpperOffset, 0])
         arc_bottom_text("NEVA DIVERS", 0, txtUpperRadius, txtUpperSize, txtUpperSpacing, false);
@@ -142,9 +150,9 @@ module build_logo () {
         translate([40, 8])circle (2.6);
         
         // 7. Внешняя рамка
-        oval_ring(108, thickness*2, 0.7);
+        oval_ring(108, thickness_line*2, 0.7);
     }
 }
 
 // Рендер
-//build_logo(thickness);
+build_logo(thickness_line);
